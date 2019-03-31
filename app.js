@@ -7,7 +7,7 @@ var app = express(),
 	passportLocalMongoose = require('passport-local-mongoose'),
 	User = require('./models/user');
 
-mongoose.connect("mongodb://localhost/testdb");
+mongoose.connect("mongodb://admin:admin@ds127825.mlab.com:27825/meeting-room-reservation");
 app.set("view engine", "ejs");
 
 // need body-parser to post data from a form  to request
