@@ -86,7 +86,10 @@ app.get('/logout', function(req, res){
 	res.render("main");
 })
 
-
-app.listen(3000, function(){
-    console.log("The Server has started !"); //Listening on port 3000
+app.listen(process.env.PORT, process.env.IP, function(){
+    console.log("The Server has started !");
 });
+
+// app.listen(3000, function(){
+//     console.log("The Server has started !"); //Listening on port 3000
+// });
