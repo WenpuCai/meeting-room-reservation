@@ -3,15 +3,22 @@ var app = express(),
 	bodyParser = require('body-parser'),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
+	flash       = require("connect-flash"),
 	LocalStrategy = require('passport-local'),
 	passportLocalMongoose = require('passport-local-mongoose'),
 	User = require('./models/user');
+
+//  requiring routes
+var indexRoutes = require("./routers/index")
 
 mongoose.connect("mongodb://admin:admin777@ds127825.mlab.com:27825/meeting-room-reservation");
 app.set("view engine", "ejs");
 
 // need body-parser to post data from a form  to request
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(express.static(__dirname + "/public")); // __dirname is the dir that this script runs
+app.use(flash());
 
 // add in express-sesseion
 app.use(require("express-session")({
@@ -34,62 +41,21 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// to put currentUser: req.user to every route
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user; // pass req.user to every template
+    res.locals.error = req.flash("error"); // res.locals.whateverName = value you wanna access 
+    res.locals.success = req.flash("success");
+    next(); // move on
+});// app.use(middleware) whatever function we provide in it will be called on every route
 
-app.get('/', function (req, res) {
-  res.render("main");
-});
+/*		use routes here		*/ 
+app.use(indexRoutes);
 
-// This page is for logined user
-app.get('/secret', function (req, res) {
-  res.render("secret");
-});
-
-/*
-	Auth routes : register & login need 2 routes
-*/ 
-
-// render register forms
-app.get('/register', function(req, res){
-	res.render("register");
-})
-
-// handle user sign up
-app.post('/register', function(req, res){
-	User.register(new User({username: req.body.username}), req.body.password, function(err, user){
-  		if (err) {
-  			console.log(err);
-  			return res.render('register');
-  		} 
-  		// log in the user
-  		passport.authenticate("local")(req, res, function(){
-  			res.redirect('/');
-  		})
-	})
-})
-
-// render login forms
-app.get('/login', function(req, res){
-	res.render("login");
-})
-
-// login logic
-app.post('/login', passport.authenticate("local", {
-	successRedirect: "/secret",
-	failureRedirect: "/login"
-}), function(req, res){
-	
-})
-
-// logout logic
-app.get('/logout', function(req, res){
-	req.logout(); // passport will distroy all user data in the session and on longer keep track this user's data
-	res.render("main");
-})
-
-app.listen(process.env.PORT, process.env.IP, function(){
-    console.log("The Server has started !");
-});
-
-// app.listen(3000, function(){
-//     console.log("The Server has started !"); //Listening on port 3000
+// app.listen(process.env.PORT, process.env.IP, function(){
+//     console.log("The Server has started !");
 // });
+
+app.listen(3000, function(){
+    console.log("The Server has started !"); //Listening on port 3000
+});
