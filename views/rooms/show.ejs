@@ -1,0 +1,36 @@
+//====================================
+// Display Room Info for general users
+//====================================
+
+<% include ../partials/header %>
+    <!-- This is where the Meeting Room Info is displayed-->
+
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Meeting Room Reservation</p>
+            <div class="list-group">
+                <li class="list-group-item">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 3</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-responsive" src="<%= room.image %>">
+                <div class="caption-full">
+                    <h4 class="pull-right">Ocupied / Available</h4>
+                    <h4><a><%= room.name %></a></h4>
+                    <p><%= room.description %></p>
+
+                    <% if(currentUser && room.author.id.equals(currentUser._id)){ %>
+                    <a class="btn btn-warning" href="/rooms/<%= room._id %>/edit">Edit</a>
+                    <form id="delete-form" action="/rooms/<%= room._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<% include ../partials/footer %>

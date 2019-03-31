@@ -5,7 +5,7 @@ var app = express(),
 	passport = require('passport'),
 	flash       = require("connect-flash"),
 	LocalStrategy = require('passport-local'),
-	passportLocalMongoose = require('passport-local-mongoose'),
+	methodOverride = require("method-override"),
 	User = require('./models/user');
 
 //  requiring routes
@@ -16,7 +16,7 @@ app.set("view engine", "ejs");
 
 // need body-parser to post data from a form  to request
 app.use(bodyParser.urlencoded({extended: true}));
-
+app.use(methodOverride("_method")); // for "?_method="
 app.use(express.static(__dirname + "/public")); // __dirname is the dir that this script runs
 app.use(flash());
 

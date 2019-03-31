@@ -1,0 +1,30 @@
+//=======================================
+// Main Page for Displaying all the Rooms
+//=======================================
+
+<% include ../partials/header %> <!-- ".." means one folder back -->
+
+    <header class="jumbotron"> <!--for header tag, no difference but a div except semantic meaning-->
+    <div class="container"> <!--This inside container will give the text inside the jumbotron some space rather than being squeezed against the edge when minimize-->
+        <h1>This is the meeting rooms page!</h1>
+        <p>View all the meeting rooms available</p>
+    </div>
+    </header>
+    
+    <div class="row text-center" style="display:flex; flex-wrap: wrap">
+        <% rooms.forEach(function(room){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <img src="<%= room.image %>">
+                    <div class="caption">
+                        <h4><%= room.name %></h4>
+                    </div>
+                    <p>
+                        <a href="/rooms/<%= room._id %>" class="btn btn-primary">More Info</a>
+                    </p>
+                </div>
+            </div>
+        <% }) %>        
+    </div>
+    
+<% include ../partials/footer %>
