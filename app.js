@@ -6,10 +6,13 @@ var app = express(),
 	flash       = require("connect-flash"),
 	LocalStrategy = require('passport-local'),
 	methodOverride = require("method-override"),
-	User = require('./models/user');
+	User = require('./models/user'),
+	seedDB      = require("./seeds");
 
 //  requiring routes
 var indexRoutes = require("./routers/index")
+
+seedDB();
 
 mongoose.connect("mongodb://admin:admin777@ds127825.mlab.com:27825/meeting-room-reservation");
 app.set("view engine", "ejs");
