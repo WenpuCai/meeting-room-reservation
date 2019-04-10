@@ -4,8 +4,7 @@
 
 var middlewareObj = {};
 
-var Room = require("../models/room"),
-    Comment    = require("../models/comment");
+var Room = require("../models/room");
 
 middlewareObj.checkOwnership = function(req, res, next) {
     //  is user logged in ?

@@ -10,7 +10,8 @@ var app = express(),
 	seedDB      = require("./seeds");
 
 //  requiring routes
-var indexRoutes = require("./routers/index")
+var indexRoutes = require("./routes/index"),
+	roomRoutes = require("./routes/rooms")
 
 seedDB();
 
@@ -54,12 +55,13 @@ app.use(function(req, res, next){
 
 /*		use routes here		*/ 
 app.use(indexRoutes);
+app.use("/rooms",roomRoutes); // append "/rooms" before the routes
 
-app.listen(process.env.PORT, process.env.IP, function(){
-    console.log("The Server has started !");
-});
-
-// app.listen(3000, function(){
-//     console.log("The Server has started !"); //Listening on port 3000
-//     console.log("Listening on port 3000 ...");
+// app.listen(process.env.PORT, process.env.IP, function(){
+//     console.log("The Server has started !");
 // });
+
+app.listen(3000, function(){
+    console.log("The Server has started !"); //Listening on port 3000
+    console.log("Listening on port 3000 ...");
+});

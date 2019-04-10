@@ -9,9 +9,9 @@ router.get('/', function(req, res){
     res.render("landing");
 });
 
-router.get('/rooms', function(req, res){
-    res.render("rooms");
-});
+// router.get('/rooms', function(req, res){
+//     res.render("rooms");
+// });
 
 //=============
 // AUTH ROUTES
